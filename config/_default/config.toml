@@ -1,7 +1,7 @@
 # Change baseurl before deploy
 baseurl = "https://www.guiququ.com"
 languageCode = "en-us"
-paginate = 5
+paginate = 10
 title = "归去去"
 theme = "hugo-theme-stack"
 enableEmoji = true
