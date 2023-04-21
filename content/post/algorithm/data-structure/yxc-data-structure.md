@@ -1,7 +1,7 @@
 ---
 title: "数据节构"
 description: 
-date: 2023-04-21T16:31:47+08:00
+date: 2021-04-21T16:31:47+08:00
 image:
 url: /algorithm/data-structure
 math: true

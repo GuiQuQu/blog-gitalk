@@ -1,7 +1,7 @@
 ---
 title: "动态规划"
 description: 
-date: 2023-04-21T17:31:03+08:00
+date: 2021-04-21T17:31:03+08:00
 image:
 url: /algorithm/dp
 math: true
