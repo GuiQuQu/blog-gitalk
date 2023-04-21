@@ -1,5 +1,8 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
 image: cover.jpg
-description: 
+description:
+style:
+    background: "#0177b8"
+    color: "#fff"
 ---
