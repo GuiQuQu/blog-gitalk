@@ -1,0 +1,4 @@
+/content/post/**/index.md
+/public/**
+/resources/**
+.hugo_build.lock

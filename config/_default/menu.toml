@@ -1,0 +1,24 @@
+# Configure main menu and social menu
+#[[main]]
+#identifier = "home"
+#name = "Home"
+#url = "/"
+#[main.params]
+#icon = "home"
+#newtab = true
+
+[[social]]
+identifier = "github"
+name = "gitHub"
+url = "https://github.com/GuiQuQu"
+
+[social.params]
+icon = "brand-github"
+
+[[social]]
+identifier = "bilibili"
+name = "bilibili"
+url = "https://space.bilibili.com/35938821"
+
+[social.params]
+icon = "brand-twitter"
