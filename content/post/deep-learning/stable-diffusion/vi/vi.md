@@ -1,5 +1,5 @@
 ---
-title: "Vi"
+title: "变分推断"
 description: 
 date: 2023-04-20T19:59:05+08:00
 image: 
