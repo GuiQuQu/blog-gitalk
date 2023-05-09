@@ -81,6 +81,8 @@ e：图像到文本生成（但是图中给的示例是a baseball）
 
 - 多模态检索(zero-shot and finetune)
 
+  
+
 - Image Captioning
 
 ![image-20230226184109788](image-20230226184109788.png)
