@@ -1,9 +1,9 @@
 ---
-title: "算法-数学知识"
+title: "数学知识"
 description: 
 date: 2023-04-21T23:19:36+08:00
 image:
-url:
+url:/algorithm/math
 math: true
 comments: false
 draft: false
@@ -379,46 +379,34 @@ int main()
 
 ## 取模运算的基本性质
 
-如果 a ≡ b (mod m)，c ≡ d (mod m)，那么
+模运算和基本四则运算类似,但是除法除外，具体规则如下
 
-(1)a ± c ≡ b ± d (mod m)；
-(2)a * c ≡ b * d (mod m);
+1.$(a+b) \% p = (a \% p + b \% p) \% p$
 
-a ≡ b (mod m) 的意思是a和b同余，在mod m的情况下。
+2.$(a-b) \% p = (a \% p - b \% p) \% p$
 
-(1)和(2)说明对于四则运算先取余还是后取余结果都是一样的。
+3.$(a*b) \% p = (a \% p * b \% p) \% p$
 
+4.$a^b \% p = ((a \% p)^b) % p$
 
+模运算满足结合律，交换律和分配律，具体如下
 
-整数 ![[公式]](https://www.zhihu.com/equation?tex=a) 和 ![[公式]](https://www.zhihu.com/equation?tex=b) 除以 ![[公式]](https://www.zhihu.com/equation?tex=n) 的余数相同，则称 ![[公式]](https://www.zhihu.com/equation?tex=a%2Cb) 模 ![[公式]](https://www.zhihu.com/equation?tex=n) 同余，计作
+结合律
+$$
+((a+b) \% p + c) \%p = (a+(b+c) \% p) \% p \\
+((a*b) \% p * c) \%p = (a*(b*c) \% p) \% p \\
+$$
+交换律
+$$
+(a+b) \% p = (b+a) \% p \\
+(a*b) \% p = (b*a) \% p \\
+$$
+分配律
+$$
+(a+b) \% p = (a \%p + b \%p) \% p \\
+((a+b) \% p * c) \%p = ((a*c) \% p + (b*c) \% p) \% p
+$$
 
-![[公式]](https://www.zhihu.com/equation?tex=a+%5Cequiv+b+%5Cpmod%7Bn%7D%5C%5C)
-
-如果对于整数 ![[公式]](https://www.zhihu.com/equation?tex=a_1%2C+a_2%2C+b_1%2C+b_2) 有
-
-![[公式]](https://www.zhihu.com/equation?tex=a_1+%5Cequiv+b_1+%5Cpmod%7Bn%7D%5C%5Ca_2+%5Cequiv+b_2+%5Cpmod%7Bn%7D)
-
-那么可以把他们相加或相减
-
-![[公式]](https://www.zhihu.com/equation?tex=a_1+%5Cpm+a_2+%5Cequiv+b_1+%5Cpm+b_2%5Cpmod%7Bn%7D%5C%5C)
-
-也可以把他们相乘
-
-![[公式]](https://www.zhihu.com/equation?tex=a_1a_2+%5Cequiv+b_1b_2%5Cpmod%7Bn%7D%5C%5C)
-
-通过这两条性质，我们容易知道，如果 ![[公式]](https://www.zhihu.com/equation?tex=a%5Cequiv+b+%5Cpmod%7Bn%7D) 那么
-
-![[公式]](https://www.zhihu.com/equation?tex=%5Cmathrm+P%28a%29%5Cequiv+%5Cmathrm+P%28b%29+%5Cpmod%7Bn%7D%5C%5C+)
-
-对于任意整系数多项式 ![[公式]](https://www.zhihu.com/equation?tex=%5Cmathrm+P%28x%29) 都成立，这个结论很重要哦，经常会用
-
-这里需要注意的一点是，如果整数 ![[公式]](https://www.zhihu.com/equation?tex=a%2C+b%2C+c) 满足
-
-![[公式]](https://www.zhihu.com/equation?tex=ac%5Cequiv+bc+%5Cpmod%7Bn%7D%5C%5C)
-
-那么只有当 ![[公式]](https://www.zhihu.com/equation?tex=n%2C+c) 互质时才可以把两边的 ![[公式]](https://www.zhihu.com/equation?tex=c) 直接约掉，得到 ![[公式]](https://www.zhihu.com/equation?tex=a%5Cequiv+b+%5Cpmod%7Bn%7D) ，更一般的
-
-![[公式]](https://www.zhihu.com/equation?tex=a%5Cequiv+b+%5Cpmod%7B%5Cfrac%7Bn%7D%7B%5Cgcd%28n%2C+c%29%7D%7D%5C%5C)
 
 ## 最大公约数
 
@@ -581,26 +569,31 @@ $a^{p-1}\equiv 1 \,(mod \,p) $
 
 ## 快速幂
 
-快速幂可以在$O(logk)$的时间内计算出$a^k \,mod\, p$的结果。
+快速幂可以在$O(logk)$的时间内计算出$a^k \,mod\, p$的结果。或者就是在$O(k)$时间内计算得到$a^k$
 
-具体的计算方法就是依次计算出以下的的值 mod p 的结果
+具体的计算方法将k表示转为二进制表示，如下
 $$
-a^{2^0},a^{2^1},a^{2^2},...,a^{2^{logk}}
-$$
-然后用这些值组合出$a^k$即可。
 
-组合的方式是将k转换为二进制的形式，根据二进制上的数位来决定要将数加上。
-
-例如，求解 $2^5 \, mod \,6$,先求出$2^{2^0}\, mod \, 6 =2,\quad 2^{2^1} \, mod \, 6 =4,\quad 2^{2^2} \, mod \, 6 = 4$,
-
-5的二进制表示是$5_{(10)} = 101_{(2)}$,因此
-$$
 \begin{align}
-2^5 \mod 6 & = (2^{2^2+2^0}) \mod 6  \\
-& = 
+a^k 
+& = a^{k(0)*2^0+ k(1)*2^1 + k(2)*2^2 + \cdots +k(\log k) * 2 ^{\log k}} \\
+& = a^{k(0)*2^0} * a^{k(1)*2^1} * a^{k(2)*2^2} * \cdots * a^{k(\log k) * 2 ^{\log k}}
 \end{align}
 $$
- $2^5 \mod  6 = (2^{2^2}* 2^{2^0}) \mod 6 =2= 2^{2^2+2^0}\, mod \, 6 = 2^5 \, mod \, 6 = 32 \, mod\, 6 = 2$
+其中$k(i)$表示k的二进制表示中的倒数位数
+
+计算$k(i)$可以使用右移运算，把需要查看的位永远放到最后一位，在这个循环的同时，计算$a^1,a^2,a^4...,a^{2^{\log k}}$,我们使用第二个乘法式做计算，当$k(i)==0$时，该项值为1，因此可以忽略计算,逻辑如下
+
+```cpp
+res = 1
+while(k) {
+    if (k & 1) res = res * a;
+    a = a * a;
+    k >= 1;
+}
+```
+
+当需要取模的时候，根据模运算的性质，在乘进res的每一项上取模($a^i \% p$),然后在最终结果上取模$res \% p$
 
 快速幂代码
 
