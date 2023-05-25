@@ -3,7 +3,7 @@ title: "数学知识"
 description: 
 date: 2023-04-21T23:19:36+08:00
 image:
-url:/algorithm/math
+url: /algorithm/math
 math: true
 comments: false
 draft: false
