@@ -164,7 +164,7 @@ $$
 
 这种方式得到的prefix不和某些具体的词汇相连,因此用来引导LM是更高效的。
 
-但是直接在语言模型上优化$P_{\theta}$,没有带来更好的标签,并且导致了不稳定。(在作者的实验设置中,gpt-2和BART遇到这种问题,唯一的例外的gpt-3)
+但是直接在语言模型上优化$P_{\theta}$,没有带来更好的结果,并且导致了不稳定。(在作者的实验设置中,gpt-2和BART遇到这种问题,唯一的例外的gpt-3)
 
 作者对于参数矩阵$P_{\theta}$做了重参数化。具体来说，按照下面的方式
 
@@ -212,7 +212,7 @@ $$
 ([Li et al.2021](https://arxiv.org/abs/2104.08691))
 
 Prompt Tuning大大简化了prefiex Tuning的的想法.
-对于每个任务,Prompt Tuning只允许额外的k个tunable token作为前缀,生成为$p_{\{\theta,\theta_P\}}$(Y | [P ; X] )。P是伪prompt,$\theta_P$是prompt对应的参数,X的embedding vector。
+对于每个任务,Prompt Tuning只允许额外的k个tunable token作为前缀,生成为$p_{\{\theta,\theta_P\}}(Y | [P ; X] )$。P是伪prompt,$\theta_P$是prompt对应的参数,X的embedding vector。
 
 - Prompt Tuning在模型变大(十亿参数或者更多)时可以取得competitive的结果。
 - 在将模型迁移到一个新领域时,Prompt Tuning的效果比fine-tuning要好。
@@ -220,16 +220,17 @@ Prompt Tuning大大简化了prefiex Tuning的的想法.
 
 针对prompt初始化方式的实验结果
 
-prompt的初始化方式有3中(分类任务)
+prompt的初始化方式有3种(分类任务)
 
 1. 从[-0.5,0.5]中随机均匀采样
-2. 从5000个最常见的token
+2. 从5000个最常见的token采样
 3. 使用类标签的embedding来初始化,如果类标签长度不够,那么使用方法2
 
 ![Prompt Tuning 消融实验](2023-05-28-16-53-29.png)
 
 预训练模型的预训练目标对结果也有影响
-T5’s “span corruption” is not a good option here.
+
+>T5’s “span corruption” is not a good option here.
 
 Prompt Tuning的训练方式可以克服一点在特定数据集上的过拟合。也就是说模型的鲁棒性更好。作者的评测是用一个领域的数据集训练,但是在新领域的测试集上做测试。结果如下图
 
