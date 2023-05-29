@@ -238,6 +238,10 @@ Prompt Tuning的训练方式可以克服一点在特定数据集上的过拟合�
 
 Prompt Tuning 也对prompt  Ensembling进行了实验,证明训练多个prompt,然后采用投票的方式是可以取得Ensembling的效果的。
 
+## 待拓展
+
+Vision Prompt tuning([Jia et.al,2022](https://arxiv.org/abs/2203.12119))
+
 ## Augmented Language Models
 
 A survey on augmented language model by [(Mialon et.al.2023)](https://arxiv.org/abs/2302.07842)

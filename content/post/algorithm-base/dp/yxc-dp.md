@@ -3,12 +3,12 @@ title: "动态规划"
 description: 
 date: 2021-04-21T17:31:03+08:00
 image:
-url: /algorithm/dp
+url: /algorithm-base/dp
 math: true
 comments: false
 draft: false
 categories:
-    - Algorithm
+    - algorithm-base
 ---
 
 # 动态规划

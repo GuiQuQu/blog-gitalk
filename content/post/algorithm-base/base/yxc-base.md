@@ -1,12 +1,12 @@
 ---
-title: "算法-基础"
+title: "基础内容"
 description:
 date: 2021-04-20T17:24:55+08:00
-url: /algirithm/base
+url: /algirithm-base/base
 math: false
 draft:  false
 categories:
-    - Algorithm
+    - algorithm-base
 ---
 
 # 基础内容

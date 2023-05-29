@@ -3,12 +3,12 @@ title: "数据节构"
 description: 
 date: 2021-04-21T16:31:47+08:00
 image:
-url: /algorithm/data-structure
+url: /algorithm-base/data-structure
 math: true
 comments: false
 draft: false
 categories:
-    - Algorithm
+    - algorithm-base
 ---
 
 # 数据结构

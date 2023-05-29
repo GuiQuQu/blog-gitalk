@@ -3,12 +3,12 @@ title: "搜索与图论"
 description: 搜索与图论
 date: 2023-05-09T13:53:57+08:00
 image:
-url: /algirithm/graph
+url: /algirithm-base/graph-and-search/
 math: true
 comments: false
 draft: false
 categories:
-    - Algorithm
+    - algorithm-base
 ---
 
 # DFS和BFS
@@ -294,7 +294,7 @@ int st[N];
 int dfs(int u)
 {
     //当前节点u
-	for (int i=0;i!=-1;i=ne[i])
+	for (int i=h[u];i!=-1;i=ne[i])
     {
         int j =e[i];
         if (!st[j])
