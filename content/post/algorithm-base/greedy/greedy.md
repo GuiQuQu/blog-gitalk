@@ -8,7 +8,7 @@ math: true
 comments: false
 draft: false
 categories:
-    - "algorithm-base"
+    - algorithm-base
 ---
 
 # 贪心

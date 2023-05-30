@@ -3,12 +3,12 @@ title: "搜索"
 description: 提高课搜索
 date: 2023-05-29T20:34:16+08:00
 image:
-url: /algorithm-imporve/search/
+url: /algorithm-improve/search/
 math: false
 comments: false
 draft: false
 categories:
-    - algorithm-imporve
+    - algorithm-improve
 ---
 
 # 提高课搜索

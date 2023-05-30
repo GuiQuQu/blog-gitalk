@@ -1,5 +1,5 @@
 ---
-title: "Algorithm Improve"
+title: "algorithm-improve"
 image: cover.jpg
 description:
 style:
