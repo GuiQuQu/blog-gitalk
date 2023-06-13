@@ -8,7 +8,7 @@ math: true
 comments: false
 draft: false
 categories:
-    - Reinforcement Learning
+    - rl
 ---
 
 这里使用大写字母对应随机变量,使用小写字母对应随机变量的一个采样

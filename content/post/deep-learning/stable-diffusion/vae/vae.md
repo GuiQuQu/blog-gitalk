@@ -4,7 +4,7 @@ date: 2023-04-20T17:24:55+08:00
 draft: false
 url: /deep-learning/vae
 categories:
-    - Deep Learning
+    - deep-learning
 ---
 
 # VAE

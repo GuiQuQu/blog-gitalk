@@ -6,7 +6,7 @@ url: /deep-learning/torch-ddp
 math: false
 draft:  false
 categories:
-    - Deep Learning
+    - deep-learning
 ---
 
 # torch分布式数据并行训练

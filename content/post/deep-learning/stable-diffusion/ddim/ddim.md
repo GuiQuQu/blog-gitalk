@@ -4,7 +4,7 @@ date: 2023-04-20T17:24:55+08:00
 draft: false
 url: /stable-diffusion/ddim
 categories:
-  - Stable Diffusion
+  - stable-diffusion
 ---
 
 DDIM相比于DDPM，不在假设扩散过程是一个马尔可夫链。

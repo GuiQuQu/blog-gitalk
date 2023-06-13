@@ -8,7 +8,7 @@ math: true
 comments: false
 draft: false
 categories:
-    - Reinforcement Learning
+    - rl
 ---
 
 # Policy Based Reinforcement Learning

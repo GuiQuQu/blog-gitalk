@@ -8,7 +8,7 @@ math: true
 comments: false
 draft: false
 categories:
-    - Reinforcement Learning
+    - rl
 ---
 
 需要先确认好动作价值函数$Q_\pi(s_t,a_t)$和状态价值哈数$V_\pi(s_t)$的概念。

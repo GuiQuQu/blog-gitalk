@@ -8,7 +8,7 @@ math: true
 comments: false
 draft: false
 categories:
- - Deep learning
+    - deep-learning
 ---
 
 # 贝叶斯公式

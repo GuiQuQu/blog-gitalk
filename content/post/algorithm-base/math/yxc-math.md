@@ -59,7 +59,7 @@ int main()
 
 ![21E922DB09B9E8BA82E21ADB3F9654A3](21E922DB09B9E8BA82E21ADB3F9654A3.png)
 
-——**试除法**
+- **试除法**
 
 思路：从小到大尝试n的所有的数，如果n%i==0，i就是一个质因子。
 
@@ -107,6 +107,50 @@ int main()
         puts("");
     }
     return 0;
+}
+```
+
+- 阶乘分解质因数
+
+[例题1](https://www.acwing.com/activity/content/problem/content/1733/)
+
+[例题2](https://leetcode.cn/problems/factorial-trailing-zeroes/description/)
+
+使用试除法对阶乘分解质因数时间复杂度是 $O(N \sqrt{N})$
+有一种方法可以在 $O(\log n)$ 的时间内判断 $n!$ 中包含几个质因子 $p$。
+筛质数$O(n)$,然后计算各个质数的次数
+
+1. 1~n中p的倍数的个数为$\left\lfloor \frac{n}{p} \right\rfloor$
+2. 每一个p的倍数中,至少包含一个p
+3. 因此p的倍数起码是$\left\lfloor \frac{n}{p} \right\rfloor$
+4. 有些数里面不止一个p,例如$p^2,p^3$
+5. 因此我们先计算$\left\lfloor \frac{n}{p^2} \right\rfloor$
+6. 这样就把$p^2$中的p也加上了
+7. 然后我们就已知循环，直到$p^k$大于n
+
+```cpp
+// 示例1
+int get(int n, int p)
+{
+    int res = 0;
+    int t = p
+    while (n/t)
+    {
+        res += n / t;
+        t *= p;
+    }
+    return res;
+}
+
+```
+```cpp
+// 示例2,少了溢出风险,更加推荐这种写法
+int get(int n, int p) {
+    int s = 0, t = n;
+    while(t) {
+        s += t / p;
+        t /= p;
+    }
 }
 ```
 
@@ -574,11 +618,11 @@ $a^{p-1}\equiv 1 \,(mod \,p) $
 具体的计算方法将k表示转为二进制表示，如下
 $$
 
-\begin{align}
+\begin{aligned}
 a^k 
 & = a^{k(0)*2^0+ k(1)*2^1 + k(2)*2^2 + \cdots +k(\log k) * 2 ^{\log k}} \\
 & = a^{k(0)*2^0} * a^{k(1)*2^1} * a^{k(2)*2^2} * \cdots * a^{k(\log k) * 2 ^{\log k}}
-\end{align}
+\end{aligned}
 $$
 其中$k(i)$表示k的二进制表示中的倒数位数
 
@@ -1284,15 +1328,15 @@ int main()
 
 首先介绍一下关于异或的一些基本操作
 
-1.A XOR A = 0
+1. $A XOR A = 0$
 
-2.A XOR 0 = A
+2. $A XOR 0 = A$
 
-3.A XOR B = B XOR A (交换律)
+3. $A XOR B = B XOR A \text{(交换律)}$
 
-4.A XOR B  XOR C = A XOR (B XOR C) =  (A XOR B) XOR C
+4. $A XOR B  XOR C = A XOR (B XOR C) =  (A XOR B) XOR C$
 
-5.D = A XOR B XOR C 可以推出 A = D XOR B XOR C 
+5. $D = A XOR B XOR C \text{可以推出} A = D XOR B XOR C$
 
 **公平组合游戏ICG**
 

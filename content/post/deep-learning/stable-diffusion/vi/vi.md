@@ -8,7 +8,7 @@ comments: false
 draft: true
 url: /deep-learning/vi
 categories:
- - Stable diffusion
+ - stable-diffusion
 ---
 
 
