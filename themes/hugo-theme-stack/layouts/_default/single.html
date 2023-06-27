@@ -31,8 +31,8 @@
     {{ end }}
 
     {{ partial "article/components/related-content" . }}
-     
-    {{ if not (eq .Params.comments false) }}
+    
+    {{ if not (eq .Site.Params.comments.enabled false) }}
         {{ partial "comments/include" . }}
     {{ end }}
 

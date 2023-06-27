@@ -79,7 +79,7 @@ enabled = true
 ## Comments
 [comments]
 enabled = true
-provider = "gitalk.html"
+provider = "gitalk"
 
 [comments.disqusjs]
 shortname = ""
@@ -143,7 +143,7 @@ emitMetadata = 0
 [comments.gitalk]
 owner = "GuiQuQu"
 admin = "GuiQuQu"
-repo = "https://github.com/GuiQuQu/guiququ-blog"
+repo = "guiququ-blog"
 clientID = "6cf282bf388255ff82bf"
 clientSecret = "07ac479af4b7bd75ba2b0c82ac726a49c0c8940c"
 

@@ -20,5 +20,5 @@ identifier = "bilibili"
 name = "bilibili"
 url = "https://space.bilibili.com/35938821"
 
-[social.params]
-icon = "brand-twitter"
+#[social.params]
+#icon = "brand-twitter"
