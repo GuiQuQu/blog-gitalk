@@ -26,7 +26,7 @@ math = true
 readingTime = true
 
 [article.license]
-enabled = false
+enabled = true
 default = "Licensed under CC BY-NC-SA 4.0"
 
 ## Widgets
@@ -78,8 +78,8 @@ enabled = true
 
 ## Comments
 [comments]
-enabled = false
-provider = "disqus"
+enabled = true
+provider = "gitalk.html"
 
 [comments.disqusjs]
 shortname = ""
@@ -141,11 +141,11 @@ reactionsEnabled = 1
 emitMetadata = 0
 
 [comments.gitalk]
-owner = ""
-admin = ""
-repo = ""
-clientID = ""
-clientSecret = ""
+owner = "GuiQuQu"
+admin = "GuiQuQu"
+repo = "https://github.com/GuiQuQu/guiququ-blog"
+clientID = "6cf282bf388255ff82bf"
+clientSecret = "07ac479af4b7bd75ba2b0c82ac726a49c0c8940c"
 
 [comments.cusdis]
 host = ""
