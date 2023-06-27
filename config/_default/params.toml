@@ -143,7 +143,7 @@ emitMetadata = 0
 [comments.gitalk]
 owner = "GuiQuQu"
 admin = "GuiQuQu"
-repo = "guiququ-blog"
+repo = "blog-gitalk"
 clientID = "6cf282bf388255ff82bf"
 clientSecret = "07ac479af4b7bd75ba2b0c82ac726a49c0c8940c"
 
