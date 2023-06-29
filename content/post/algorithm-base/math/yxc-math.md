@@ -11,9 +11,9 @@ categories:
     - algorithm-base
 ---
 
-# 数学知识
+# AcWing 算法基础课
 
-# 数论
+# 数学知识
 
 ## 质数的判定
 

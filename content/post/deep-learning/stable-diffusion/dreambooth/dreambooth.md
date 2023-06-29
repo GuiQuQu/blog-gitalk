@@ -13,8 +13,6 @@ categories:
 
 **DreamBooth: Fine Tuning Text-to-Image Diffusion Models for Subject-Driven Generation**
 
-
-
 文本的主要目的是通过微调sd预训练模型，让模型可以做到可以生成特定对象的图像
 
 

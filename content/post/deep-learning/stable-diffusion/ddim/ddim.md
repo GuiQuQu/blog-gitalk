@@ -1,7 +1,7 @@
 ---
 title: "DDIM"
 date: 2023-04-20T17:24:55+08:00
-draft: false
+draft: true
 url: /stable-diffusion/ddim
 categories:
   - stable-diffusion

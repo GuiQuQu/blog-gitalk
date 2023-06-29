@@ -131,7 +131,7 @@ torch.distributed.init_process_group(backend,
                           rank=rank, world_size=world_size)
   ```
 
-  没用用过，看到参考文档说这种方式容易出问题，这里更**推荐使用tcp初始化**，简单高效，不出问题。
+  没用过，看到参考文档说这种方式容易出问题，这里更**推荐使用tcp初始化**，简单高效，不出问题。
 
   **环境变量初始化**
 

@@ -1,7 +1,7 @@
 ---
 title: "VAE"
 date: 2023-04-20T17:24:55+08:00
-draft: false
+draft: true
 url: /deep-learning/vae
 categories:
     - deep-learning

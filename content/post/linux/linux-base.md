@@ -272,7 +272,7 @@ drwxr-xr-x 13 gyzhang     gyzhang      4096 Mar 13 18:26 gyzhang
 
 `ctrl+insert`  or  `ctrl+shfit+c`   or `选中右击`复制
 
-# 70server
+# conda in server
 
 - 下载了conda之后在.bashrc里面conda自动执行了conda init,一旦ssh连接上就是conda环境
 - 修改conda的源的文件设置是.condarc,修改成了清华源

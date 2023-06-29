@@ -11,6 +11,9 @@ categories:
     - rl
 ---
 
+目前强化学习相关的内容全部来自于[DRL](https://github.com/wangshusen/DRL)
+我也只是把一些基本的概念写下来，防止自己忘记了
+
 这里使用大写字母对应随机变量,使用小写字母对应随机变量的一个采样
 
 # state and action

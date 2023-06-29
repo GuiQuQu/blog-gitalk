@@ -11,6 +11,9 @@ categories:
     - rl
 ---
 
+目前强化学习相关的内容全部来自于[DRL](https://github.com/wangshusen/DRL)
+我也只是把一些基本的概念写下来，防止自己忘记了
+
 # Q-learning
 
 ## Sarsa vs. Q-Learning

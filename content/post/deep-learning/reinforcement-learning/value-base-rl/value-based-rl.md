@@ -11,6 +11,9 @@ categories:
     - rl
 ---
 
+目前强化学习相关的内容全部来自于[DRL](https://github.com/wangshusen/DRL)
+我也只是把一些基本的概念写下来，防止自己忘记了
+
 需要先确认好动作价值函数$Q_\pi(s_t,a_t)$和状态价值哈数$V_\pi(s_t)$的概念。
 
 ## Optimal action-value function

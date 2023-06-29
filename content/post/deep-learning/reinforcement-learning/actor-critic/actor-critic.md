@@ -11,6 +11,9 @@ categories:
     - rl
 ---
 
+目前强化学习相关的内容全部来自于[DRL](https://github.com/wangshusen/DRL)
+我也只是把一些基本的概念写下来，防止自己忘记了
+
 # Actor Critic
 Actor Critic方法有两个神经网络，一个是Actor，一个是Critic。Actor的作用是输出动作，Critic的作用是评估Actor的输出。
 

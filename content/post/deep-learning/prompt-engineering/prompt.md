@@ -11,6 +11,8 @@ categories:
     - Deep-Learning
 ---
 
+本文主要对[Lil' Log Prompt Engineering](https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/)
+做了一些翻译，然后结合提到几篇具体论文，加了一点东西。
 
 # Prompt Engineering
 
