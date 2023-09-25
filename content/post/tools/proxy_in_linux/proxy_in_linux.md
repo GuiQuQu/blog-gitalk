@@ -39,13 +39,13 @@ cd ~/.config/clash
 ```
 
 # 获取订阅设置
-```
-curl -O config.yaml "订阅地址"
+```shell
+curl -o config.yaml "订阅地址"
 ```
 这样就会得到含有代理节点和代理规则的配置文件,我们需要做如下修改
-- `allow-lan` 改为false,否则任何人都可以使用你的代理
+- `allow-lan` 是否允许局域网用户使用代理,改为false,
 - 添加`external-ui:ui` 为我们使用dashboard做准备
-- 确实`external-controller`项的ip为0.0.0.0,这样可以保证任何ip都可以访问dashboard
+- 确定`external-controller`项的ip为0.0.0.0,这样可以保证任何ip都可以访问dashboard
 - `secret`这是访问dashboard的密码,可选项
 
 例如我的配置文件如下
@@ -64,7 +64,7 @@ curl -O config.yaml "订阅地址"
 
 直接运行即可,根据log检查是否有错误,并使用`curl`确认确实可以走代理
 然后确认dashboard确实可以访问
-
+dashboard访问的url为`https://IP:port/ui`
 ## Notice
 **error: unsupported rule type RULE-SET**
 ```
