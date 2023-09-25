@@ -463,8 +463,8 @@ int main() {
 
 #### 删除元素
 - `c.erase(k)` 删除关键字为k的元素,返回删除的元素数量
-- `c.erase(p)` 删除迭代器p指向的元素,返回指向p之后元素的迭代器(有序容器)
-- `c.erase(b,e)` 删除迭代器b和e指定的范围内的元素,返回e(有序容器)
+- `c.erase(p)` 删除迭代器p指向的元素,返回指向p之后元素的迭代器
+- `c.erase(b,e)` 删除迭代器b和e指定的范围内的元素,返回e
 
 #### map的下标操作
 
@@ -493,7 +493,7 @@ map和unordered_map支持下标操作和一个对应的at函数
 
 lower_bound和upper_bound不适用于无序容器
 下标和at操作只适用于非const的map和unordered_map
-- `c.find()` 返回一个迭代器,指向第一个关键字为k的元素,如果k不在c中,则返回尾迭代器
+- `c.find(k)` 返回一个迭代器,指向第一个关键字为k的元素,如果k不在c中,则返回尾迭代器
 - `c.count(k)` 返回关键字等于k的元素的数量
 - `c.lower_bound(k)` 返回一个迭代器,指向第一个关键字>=k的元素
 - `c.upper_bound(k)` 返回一个迭代器,指向第一个关键字>k的元素
@@ -501,10 +501,16 @@ lower_bound和upper_bound不适用于无序容器
 
 ### 无序容器
 
-- `c.find()`
-- `c.count()`
-- `c.insert()`
-- `c.erase()`
+- `c.find(k)` 返回一个迭代器,指向第一个关键字为k的元素,如果k不在c中,则返回尾迭代器
+- `c.count(k)` 返回关键字等于k的元素的数量
+
+- `c.insert({k,v})` unordered_map和unordered_multimap支持此操作
+- `c.insert(key)` unordered_set支持
+  
+- `c.erase(k)` 删除关键字为k的元素,返回删除的元素数量
+- `c.erase(p)` 删除迭代器p指向的元素,返回指向p之后元素的迭代器
+- `c.erase(b,e)` 删除迭代器b和e指定的范围内的元素,返回e
+  
 支持迭代器遍历和 `:`遍历
 ```cpp
 int main() {
