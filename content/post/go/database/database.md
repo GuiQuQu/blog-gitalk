@@ -10,9 +10,6 @@ draft: true
 categories:
 ---
 
-# 关系数据库
-
-
 ## 事务
 
 事务的属性(ACID)

@@ -18,11 +18,11 @@ categories:
 在有了代理之后,经常会遇到一种情况,使用浏览器等工具访问github完全正常,但是往往`git clone`的时候总是clone不下来,
 然后我们就会退了求其次,在github的仓库自己手动把源码下载下来。
 
-但是在面对一个使用git的工具的时候,仓库的数量过来,并且我们也并不清楚对应提交版本,导致下载仓库非常棘手,日常超时
+但是在面对一个使用git的工具的时候,仓库的数量不过来,并且我们也并不清楚对应仓库版本的哈希值,导致下载仓库非常棘手,日常超时
 
-我个人在下面几个实际场景下终于收不了了
+一个典型的场景是pip下载python包时,有的包往往是来自于git仓库的
+
 - pip下载git仓库
-- neovim的lazy.vim下载插件
 
 下面就来说明如何使用代理来访问git仓库
 
@@ -30,13 +30,15 @@ categories:
 
 一般而言,我们的代理都是在本机的某一个端口
 例如,使用clash,最常见的两种代理协议http(7890)和socks5(7891),分别对应的url是
+
 ```shell
 http://127.0.0.1:7890 
+```
+```shell
 socks5://127.0.0.1:7891
 ```
 
-拉取和提交git仓库基于两种协议：http和ssh
-下面分别说明
+拉取和提交git仓库基于两种协议：http和ssh,下面分别说明
 
 # 设置http(s)代理
 
@@ -44,38 +46,62 @@ socks5://127.0.0.1:7891
 
 ## 针对所有域名设置代理(不推荐)
 
+例如从huggingface的仓库中下载模型也是用git,不过远程仓库的域名就不是github.com了
+
+> 使用 http代理
+
 ```shell
-# 使用 http代理
 git config --global http.proxy http://127.0.0.1:7890 
 git config --global https.proxy http://127.0.0.1:7890
-# 使用socks5代理 
+```
+
+> 使用socks5代理 
+
+```bash
 git config --global http.proxy socks5://127.0.0.1:7891
 git config --global https.proxy socks5://127.0.0.1:7891
 ```
 
 ## 只针对GitHub设置代理(推荐)
+
+> 使用 http代理
+
 ```shell
-# 使用 http代理
 git config --global http.https://github.com.proxy http://127.0.0.1:7890 
 git config --global https.https://github.com.proxy http://127.0.0.1:7890
-# 使用socks5代理 
+```
+
+> 使用socks5代理 
+
+```bash
 git config --global http.https://github.com.proxy socks5://127.0.0.1:7891
 git config --global https.https://github.com.proxy socks5://127.0.0.1:7891
 ```
 
 ## 取消代理
+
+> 取消全域名代理
+
 ```shell
 git config --global --unset http.proxy
 git config --global --unset https.proxy
+```
+
+> 取消对应域名代理
+
+```shell
 git config --global --unset http.https://github.com.proxy
 git config --global --unset https.https://github.com.proxy
 ```
 
 # 设置ssh代理
 
-https代理做身份验证,意味着每次交互都必须输入账号和密码,因此更加推荐使用ssh连接
+https代理做身份验证,意味着每次交互都必须输入账号和密码,但是对应clone公共仓库来说已经够用了。
+
+但是如果我们自己需要push代码上去,使用ssh来连接仓库体验更好,因为不需要一直输入账号和密码
 
 使用ssh代理可以完全免去输入用户和密码
+
 前提
 - 保证自己的电脑上已经设置了ssh_key,并且和github做绑定(使用`ssh-keygen`命令创建,一路enter)
 
