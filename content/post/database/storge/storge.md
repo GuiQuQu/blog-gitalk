@@ -6,6 +6,6 @@ image:
 url:
 math: true
 comments: true
-draft: false
+draft: true
 categories:
 ---

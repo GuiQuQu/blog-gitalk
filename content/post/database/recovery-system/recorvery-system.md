@@ -6,6 +6,6 @@ image:
 url: /db/recovery-system
 math: true
 comments: true
-draft: false
+draft: true
 categories:
 ---

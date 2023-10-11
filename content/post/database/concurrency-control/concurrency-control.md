@@ -6,6 +6,6 @@ image:
 url: /db/concurrency-control
 math: true
 comments: true
-draft: false
+draft: true
 categories:
 ---

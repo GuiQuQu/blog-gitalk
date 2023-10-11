@@ -6,6 +6,6 @@ image:
 url: /db/query-optimization
 math: true
 comments: true
-draft: false
+draft: true
 categories:
 ---

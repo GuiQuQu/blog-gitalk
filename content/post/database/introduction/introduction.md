@@ -6,7 +6,7 @@ image:
 url: /db/introduction
 math: false
 comments: true
-draft: true
+draft: false
 categories:
 ---
 
