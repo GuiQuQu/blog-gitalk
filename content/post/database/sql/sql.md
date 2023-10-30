@@ -189,7 +189,7 @@ $\sigma_{Student.Sno=SC.Sno}(Student \times SC)$
 
 - 等价变换 $R \cap S = R - (R - S)$
 
-## $\theta$连接
+## θ连接
 - 功能：将关系R和S中满足给定连接条件$\theta$的元组进行连接
 - 语法：$R \bowtie_{\theta} S$
   -  $\bowtie$内连接操作符
@@ -398,14 +398,14 @@ PRIMARY KEY (Sno)
 
 `ALTER TABLE`
 
-**增加属性**
+### 增加属性
 
 向Student关系中增加属性Mno,记录学生的班长的学号
 ```sql
 ALTER TABLE Student ADD Mno CHAR(6);
 ```
 
-**增加约束**
+### 增加约束
 
 将属性Mno声明为Student关系的外键，参照Student的主键Sno
 
@@ -416,20 +416,20 @@ ADD CONSTRAINT fk_mno
 FOREIGN KEY (Mno) REFERENCES Student(Sno);
 ```
 
-**删除属性**
+### 删除属性
 
 删除Student关系的Mno属性
 ```sql
 ALTER TABLE Student DROP Mno;
 ```
 
-**删除约束**
+### 删除约束
 删除Student关系中Mno属性上的外键约束fk_mno
 ```sql
 ALTER TABLE Student DROP CONSTRAINT fk_mno;
 ```
 
-**修改属性定义**
+### 修改属性定义
 
 将Student关系中Sname属性的类型修改为VARCHAR(20)且不可重复
 ```sql
@@ -440,9 +440,10 @@ ALTER TABLE Student ALTER Sname VARCHAR(20) UNIQUE;
 ## 定义视图
 
 创建，修改，删除
+
 `CREATE VIEW`, `ALTER VIEW`, `DROP VIEW`
 
-**创建**
+### 创建
 
 ```sql
 CREATE VIEW 视图名 [(属性名列表)] AS 子查询;
@@ -458,7 +459,7 @@ FROM Student NATURAL JOIN SC
 WHERE Sdept = 'CS' AND Cno = '3006';
 ```
 
-**修改**
+### 修改
 ```sql
 ALTER VIEW 视图名 [(属性名列表)] AS 子查询;
 ```
@@ -472,7 +473,7 @@ FROM Student NATURAL JOIN SC
 WHERE Sdept = 'CS' AND Cno = '3006';
 ```
 
-**删除视图**
+### 删除视图
 ```sql
 DROP VIEW 视图名;
 ```
@@ -481,7 +482,7 @@ DROP VIEW 视图名;
 
 ## SQL数据更新
 
-**插入数据**
+### 插入数据
 
 插入元组
 ```sql
@@ -498,7 +499,7 @@ INSERT INTO Student (Sno, Sname, Sage, Ssex)
 VALUES ('MA-002','Cindy','F',19,'Math');
 ```
 
-**基于本关系的数据修改**
+### 基于本关系的数据修改
 
 ```sql
 UPDATE 关系名 SET 属性名1=表达式1, 属性名2=表达式2, ..., 属性名n=表达式n [WHERE 条件];
@@ -513,7 +514,7 @@ UPDATE Student SET Sage = 20 WHERE Sno='MA-002';
 UPDATE Student SET Sage = Sage + 1;
 ```
 
-**基于本关系的数据删除**
+### 基于本关系的数据删除
 ```sql
 DELETE FROM 关系名 [WHERE 删除条件]
 ```
@@ -540,7 +541,8 @@ DELETE FROM Student WHERE Sno='MA-002';
   - 默认值约束
   - 检查约束
 
-**参照完整性检查**
+### 参照完整性检查
+
 在FOREIGN KEY子句中声明，在FOREIGN KEY子句的末尾加上
 ```sql
 ON DELETE RESTRICT | CASCADE | SET NULL | NO ACTION
@@ -556,7 +558,8 @@ ON DELETE RESTRICT
 ON UPDATE RESTRICT
 ```
 
-**插入查询结果**
+### 插入查询结果
+
 ```sql
 INSERT INTO 关系名 (子查询);
 ```
@@ -566,7 +569,7 @@ INSERT INTO CS_Grade
 (SELECT Sno, Sname, COUNT(*), AVG(Grade) FROM Student NATURAL JOIN SC WHERE Sdept = 'CS' GROUP BY Sno, Sname);
 ```
 
-**基于外部关系的数据修改** 
+### 基于外部关系的数据修改 
 
 待修改的元组在一个关系中，而修改关系涉及其他关系
 
@@ -579,9 +582,9 @@ UPDATE SC SET Grade = 0 WHERE Sno IN (SELECT Sno FROM Student WHERE Sdept = 'CS'
 UPDATE SC SET Grade = 0 WHERE EXISTS (SELECT * FROM Student WHERE Student.Sno = SC.Sno AND Sdept = 'CS');
 ```
 
-**基于外部关系的数据删除**
+### 基于外部关系的数据删除
 
-...
+skip
 
 ## SQL数据查询
 
@@ -591,7 +594,7 @@ UPDATE SC SET Grade = 0 WHERE EXISTS (SELECT * FROM Student WHERE Student.Sno = 
 
 ![示例数据库](image.png)
 
-**投影查询**
+#### 投影查询
 
 从一个关系中选出指定的列
 ```sql
@@ -607,16 +610,17 @@ SELECT Sno, Sname FROM Student;
 ```
 查询所有系名
 ```sql
-SELCT DISTINCT Sdept FROM Student;
+SELECT DISTINCT Sdept FROM Student;
 ```
 查询全部学生信息
 ```sql
 SELECT * RROM Student;
 ```
 
-**选择查询**
+#### 选择查询
 
 从一个关系中选择满足给定条件的元组
+
 ```sql
 SELECT [DISTINCT] 表达式列表 FROM 关系名 WHERE 选择条件;
 ```
@@ -640,19 +644,19 @@ SELECT Sno, Sname FROM Student WHERE Sdept = 'CS' OR Sdept = 'Math';
 
 选择查询条件
 
-*表达式比较* 
+**表达式比较**
 - 语法 `表达式1 比较运算符 表达式2`
 - 比较运算符：`=, <>, >, <, >=, <=`,`<>`是不等于
 
-*范围比较* 
+**范围比较**
 - 语法 `表达式1 [NOT] BETWEEN 表达式2 AND 表达式3`
 - 功能 判断表达式1的值是否(不)在表达式2和表达式3之间
 
-*集合元素判断*
+**集合元素判断**
 - 语法：`表达式1 [NOT] IN (表达式2,...,表达式n)`
 - 功能：判断表达式1的值是否(不)在表达式2,...表达式n的值构成的集合中
 
-*字符串匹配*
+**字符串匹配**
 - 语法 `字符串表达式 [NOT] LIKE 模式 [ESCAPE 转义字符]`
 - 功能 判断字符串表达式的值是否匹配给定的含有通配符的模式
   - 通配符`_`匹配任意单个字符
@@ -671,7 +675,7 @@ SELECT Sno,Sname FROM Student WHERE Sname LIKE 'E%';
 SELECT Sno,Sname FROM Student WHERE Sname LIKE 'E___';
 ```
 
-*字符串正则表达式匹配*
+**字符串正则表达式匹配**
 - 语法 `字符串表达式 [NOT] REGEXP|RLIKE 模式`
   - Mysql使用REGEXP或RLIKE
   - Oracle使用REGEXP_LIKE
@@ -685,7 +689,7 @@ example
 SELECT Sno, Sname FROM Student WHERE Sname REGEXP '^[EF].*';
 ```
 
-*空值判断*
+**空值判断**
 - 语法 `属性值 IS [NOT] NULL`
 - 功能：判断属性值是否(不)为空值
 - 错误写法 `属性值 = NULL, 属性值 <> NULL, 属性值 != NULL`,这些错误写法的结果均为UNKNOWN
@@ -697,11 +701,11 @@ example
 SELECT Sno FROM SC WHERE Grade IS NULL;
 ```
 
-*逻辑运算*
+**逻辑运算**
 
 `AND, OR,NOT`
 
-**集合操作**
+#### 集合操作
 
 功能：求两个查询语句结果的并，交，差
 
@@ -748,7 +752,7 @@ SELECT * FROM SC WHERE Cno = '1002' UNION
 SELECT * FROM SC WHERE Cno = '3006'
 ```
 
-**查询结果排序**
+#### 查询结果排序
 
 - 功能：对查询结果按照指定的属性排序
 - 语法：在查询语句的后面加上`ORDER BY 属性名1 [ASC|DESC], 属性名2 [ASC|DESC], ...`
@@ -768,7 +772,8 @@ SELECT Sno,Sname FROM Student WHERE Sdept = 'CS' ORDER BY Sno;
 SELECT * FROM Student ORDER BY Sdept ASC, Sage DESC;
 ```
 
-**限制查询结果数量**
+#### 限制查询结果数量
+
 - 功能：限制查询结果中元组的数据
 - 语法 在查询语句后面加上`LIMIT [偏移量,] 结果数量` 或者 `LIMIT 结果数量 [OFFSET 偏移量]`
 - 从偏移量(默认是0)的位置的元组开始，返回指定数量的元组
@@ -779,7 +784,7 @@ SELECT Sno,Grade FROM SC WHERE Cno = '3006'
 ORDER BY Grade DESC LIMIT 2;
 ```
 
-**聚集操作**
+#### 聚集操作
 
 - 功能：计算一个关系上某表达式所有值的聚集值（值得个数COUNT，最大值MAX，最小值MIN，总和SUM，平均值AVG）
 - 语法：`SELECT 聚集函数([DISTINCT 表达式]) FROM ... WHERE ...`
@@ -817,7 +822,7 @@ SELECT Sno FROM Student WHERE Sage = MAX(Sage); // 错误写法
 SELECT Sno FROM Student WHERE IN (SELECT Max(Sage) FROM Student); // 正确写法
 ```
 
-**分组(Group By)查询**
+#### 分组(Group By)查询
 - 功能：关系代数的分组操作
 - 语法：`SELECT 分组属性列表，聚集函数表达式列表 FROM 关系名 WHERE 选择条件 GROUP BY 分组属性列表`
 - 说明：
@@ -861,7 +866,6 @@ SELECT Sno, AVG(Grade) FROM SC WHERE Grade > 80 GROUP BY Sno HAVING COUNT(*) >= 
 
 ### 连接查询
 
-
 #### 内连接
 
 - 功能：按照给定的连接条件，对两个关系做内连接($\theta$连接操作)
@@ -884,6 +888,7 @@ SELECT Student.Sno, Sname, Cno, Grade FROM Student JOIN SC USING (Sno);
 ```
 
 #### 自然连接
+
 - 功能：两个关系做自然连接
 - 语法 `关系1 NATURAL JOIN 关系2`
 
@@ -892,7 +897,8 @@ SELECT Student.Sno, Sname, Cno, Grade FROM Student JOIN SC USING (Sno);
 SELECT Student.Sno, Sname, Cno, Grade FROM Student NATURAL JOIN SC;
 ```
 
-#### 子链接
+#### 自链接
+
 - 功能：一个关系与其自身进行连接
 - 语法：与其他连接操作相同
 - 注意：
@@ -901,7 +907,9 @@ SELECT Student.Sno, Sname, Cno, Grade FROM Student NATURAL JOIN SC;
   - 属性名前必须加别名做前缀
 
 example
+
 查询和Elsa在同一个系学习的学生的学号和姓名
+
 ```sql
 SELECT S2.Sno S2.Sname FROM Student AS S1 JOIN Student AS S2 
 ON S1.Sname='Elsa' AND S1.Sdept = S2.S2.Sdept AND S1.Sno != S2.Sno;
@@ -925,6 +933,7 @@ Oracle和MS SQL Server支持FULL OUTER JOIN,MySQL不支持
   - 相关子查询：子查询依赖于外层查询
 
 example
+
 查询和Elsa在同一个系学习的学生的学号和姓名(含Elsa),使用不相关子查询
 
 ```sql
@@ -992,7 +1001,7 @@ example
 SELECT Sno, Sname FROM Student AS S WHERE EXISTS (SELECT * FROM Student AS T
 WHERE T.Sname = 'Elsa' AND T.Sdept = S.Sdept);
 ```
-执行逻辑：将父查询中每一个元组带入子查询，执行子查询，如果子查询结果部位空，则将该元组投影出来，并输出投影后的元组
+执行逻辑：将父查询中每一个元组带入子查询，执行子查询，如果子查询结果不为空，则将该元组投影出来，并输出投影后的元组
 
 嵌套查询写法4：子查询作为作为派生关系.
 - 派生表：将子查询的结果当作关系放在外层查询中的FROM子句中使用
