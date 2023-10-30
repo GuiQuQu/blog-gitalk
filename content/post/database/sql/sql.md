@@ -32,6 +32,7 @@ categories:
 如果关系种某一组属性的值能唯一标识每个元组,则称改组属性为超键(super key)
 
 例如,在关系SC(Sno,Cno,Grade)中,属性组{Sno,Cno},和{Sno,Cno,Grade}都是超键
+
 ![](2023-10-08-00-11-46.png)
 
 - 候选键
@@ -53,6 +54,7 @@ categories:
 - R与S可以是同一关系
 
 例子
+
 ![](2023-10-08-00-17-50.png)
 
 {Sdept}是Student的外键,这个外键参照了{Department}的主键{Dept}
@@ -155,6 +157,7 @@ example： 查询已选课的学生的信息
 $\sigma_{Student.Sno=SC.Sno}(Student \times SC)$
 
 （不用看黑字，这个其实就是自然连接）
+
 ![Alt text](image-3.png)
 
 ## 重命名
