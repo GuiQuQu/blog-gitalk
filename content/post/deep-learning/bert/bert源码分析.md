@@ -398,7 +398,7 @@ class BertSelfAttention(nn.Module):
 
 按照自注意力的公式计算
 $$
-output = softmax(\frac{Q^TK}{\sqrt{d_k}},dim = -1)V \\
+output = softmax(\frac{Q K^T}{\sqrt{d_k}},dim = -1)V \\
 Q\_size,K\_{size},V\_{size} = [N,seq\_{length},hidden\_{size}]
 $$
 多头的处理
