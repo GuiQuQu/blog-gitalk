@@ -2,7 +2,7 @@
 # the shell script is used to update blog content everyday
 # please add the script to crontab,and user is root
 
-blog_path="/root/guiququ-blog"
+blog_path="/root/guiququ-myblog"
 cd $blog_path
 # get blog content from git
 /usr/bin/git pull
