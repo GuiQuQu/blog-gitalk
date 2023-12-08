@@ -3,11 +3,12 @@ title: "卷积神经网络"
 description: 
 date: 2023-11-22T18:40:33+08:00
 image:
-url: /dl/cnn
+url: /deep-learning/cnn
 math: true
 comments: true
 draft: false
 categories:
+    - Deep Learning
 ---
 
 **本文的内容大部分来自于Dive into DeepLearning,有一部分是自己的理解**
