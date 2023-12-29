@@ -230,3 +230,27 @@ $$
 $$
 其中$\alpha$是一个超参数,且$\alpha > 1$,作者发现$\alpha = 2$ 效果不错
 
+
+# past-key-values参数
+
+
+past-key-values只在推理时使用
+
+huggface文档给出的类型
+
+(tuple(tuple(torch.FloatTensor)), optional, returned when use_cache=True is passed or when config.use_cache=True)
+
+第一个tuple的元组长度为`config.n_layers`,第二个tuple的元组长度为2,第一个元素是key,第二个元素是value,每个元素的shape为`(batch_size, seq_len, num_heads, head_dim)`,不同的模型可能前后维度不一样,但是肯定是这四个参数
+
+包含之前计算的self-attention模块和cross-attention模块的key和value
+
+如果使用`past_key_values`,那么输入的`input_ids`可以只输入最后一个`input_ids`, shape是`(batch_size, 1)`,来代替所有的input_ids(shape is `(batch_size, seq_len)`)
+
+在一开始模型开始计算的时候`past_key_values`一定等于`None`
+
+在一次计算之后,`past_key_values`的值就是上一次attn计算中key和value的值,attn模块会记录key和value的值,并且做返回,外围包装函数来处理这些返回的key和value
+
+如何在attn计算中使用这些key和value,首先了每一层就传每一层对应的key和value,然后将一个token的key和value与之前的`past_key`和`past_value`拼接即可
+
+
+past-key-value结合旋转位置编码

@@ -11,6 +11,7 @@ if [ $? != "0" ]; then
     exit 1
 fi
 # handle md files
+echo "start handle md files (used python3)"
 /usr/bin/python3 precess_md.py
 if [ $? != "0" ]; then
     echo "precess_md.py fail"
