@@ -1,13 +1,14 @@
 ---
-title: "Docker安装,使用,手册"
+title: "Docker安装,使用,以及一些常用的命令"
 description: 
 date: 2023-12-27T17:14:53+08:00
 image:
-url:
-math: true
+url: /docker
+math: false
 comments: true
 draft: false
 categories:
+    - Tools
 ---
 
 [Docker-Guide](https://docs.docker.com/get-started/overview/)
