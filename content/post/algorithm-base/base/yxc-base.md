@@ -26,22 +26,27 @@ const int N = 1e5 + 10;
 int a[N];
 int n;
 
-void quick_sort(int q[],int l, int r){
+// 传入数组,q 左右边界(l,r)idx(闭区间)
+// i和j的落点,最后会落到等于x的idx处
+// 因此为了保证递归不会死循环
+// e.g. quick_sort(q,l,j); 
+// 这里,j不能等于r,所以x不能选q[r]
+void quick_sort(int q[], int l, int r) {
     if (l >= r) return;
-    int x = q[l + r >> 1], i = l - 1, j = r + 1;
-    while (i < j)
-    {
+    int x = q[(l+r) >> 1], i = l-1, j = r+1;
+    while(i < j) {
         do i++; while(q[i] < x);
-        do j--; while (q[j] > x);
-        if (i < j) swap(q[i], q[j]);       
+        do j--; while(q[j] > x);
+        if (i < j) swap(q[i],q[j]);
     }
     quick_sort(q,l,j);
-    quick_sort(q,j + 1,r);
+    quick_sort(q, j+1, r);
 }
-int main(){
-    scanf("%d ",&n);
-    for (int i = 0; i < n; i++) scanf("%d ",&a[i]);
-    quick_sort(a, 0, n-1);
+
+int main() {
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) scanf("%d",&a[i]);
+    quick_sort(a,0,n-1);
     for (int i = 0; i < n; i++) printf("%d ",a[i]);
     return 0;
 }
@@ -51,66 +56,21 @@ int main(){
 
 x是划分数，有以下下几种取法
 
-partition部分返回的结果下标模板是j
-
 - `x=q[l]`
 - `x=q[r]`
 - `x=q[(l+r)/2]`
-- x=随机取一个数
+- `x=随机取一个数`
 
-但是在这个模板中，如果`x=q[l]`，则下面的递归就不能写成
+当选择边侧数时,对于选择的数有所限制,可以看代码中的注释
 
 ```cpp
+// i不能等于l,所以x不能等于q[l]
 qucik_sort(q,l,i-1);
 quick_sort(q,i,r);
-```
 
-当while循环结束的时候,j代表划分第一部分(<=x)的尾部下标,i代表划分第二部分(>=x)的头部下标,因此下一个划分只有两种取法
-[l,j] [j+1,r] 或者 [l,i-1],[i,r]
-
-然后为了防止死循环,因此采用j做划分的时候,j不能等于r,因此x不能取q[r],取中间也必须取下整
-
-采用i做划分的时候,i不能等l,因此x不能取q[l],取中间也必须取上整
-
-这个递归结束条件的所有情况都是l==r,所以快速选择算法最后可以返回q[l],或者q[r]都可以,因为按照上面的理解,所有传入[l,r]都是合法的,不会出现l>r的情况
-
-否则会死循环
-
-同理
-
-当使用模板那种写法时，x不能取q[r]
-
-举例
-
-q={1,2}
-
-```
-执行
-quick_sort(q,0,1)
-i=-1,j=2
-x=1
-
-x=q[l]
-qucik_sort(q,l,i-1);
-quick_sort(q,i,r);
-=>
-i=0 q[i]=1=x=1 i停下
-j=1 q[j]=2>x=1 j--
-j=0 q[j]=1=x=1 j停下
-quick(q,0,-1)
-quick(q,0,1) 这一步会造成死循环
-
-执行
-quick_sort(q,0,1)
-x=q[r]
-qucik_sort(q,l,i-1);
-quick_sort(q,i,r);
-x=2
-i=0 q[i]=1<2 i++
-i=1 q[i]=2==2 i停下
-j=1 q[j]=2==2 j停下
-quick_sort(q,0,0)
-quick_sort(q,1,1)
+// j 不能等于r,所以x不能等于q[r]
+quick_sort(q,l,j);
+quick_sort(q, j+1, r);
 ```
 
 ## 快速选择算法
@@ -139,6 +99,8 @@ int nth(int q[],int l,int r,int k){
         do j--; while(q[j] > x);
         if (i < j) swap(q[i],q[j]);
     }
+    // 左区间[l,j]     len = j-l+1
+    // 右区间[j+1, r]  len = r-(j+1)+1=r-j
     if (j - l + 1 >= k)
         return nth(q, l, j, k);
     else
@@ -265,7 +227,8 @@ Step 2. check(红色性质是否满足)
 true: 说明mid在红色区域 => 答案区间在[mid,r]
 false: 说明mid在蓝色区域 => 答案区间[l,mid-1]
 }
-根据上面的说明,我们可以发现这里取中间数必须取上整,不能取下整,因为我们有可能转到[mid,r]区间,取下整的情况下,[mid,r]可能变成[l,r],造成死循环
+根据上面的说明,我们可以发现这里取中间数必须取上整,不能取下整,
+因为我们有可能转到[mid,r]区间,取下整的情况下,[mid,r]可能变成[l,r],造成死循环
 
 寻找蓝色边界点的二分
 Step 1. 取中间数mid = (l+r)/2
@@ -276,7 +239,7 @@ false:说明mid在红色区间 => 答案区间[mid+1,r]
 }
 ```
 
-按照上述的方式进行二分,推出循环的时候一定是l=r的时候，因为我们可以采用l或者是r作为寻找到得到的结果,所属的区间一定不会超过原本给定的区间,最多到区间的边界。但是在区间边界时，这个结果不一定是我们想要的，有可能当前区间根本不存在要求的结果，我们可以之后检查一下值来确定。
+按照上述的方式进行二分,退出循环的时候一定是l=r的时候，因为我们可以采用l或者是r作为寻找到得到的结果,所属的区间一定不会超过原本给定的区间,最多到区间的边界。但是在区间边界时，这个结果不一定是我们想要的，有可能当前区间根本不存在要求的结果，我们可以之后检查一下值来确定。
 
 模板
 
@@ -312,7 +275,7 @@ int bsearch_2(int q[],int l,int r)
 
 **一般来说需要确定check函数，根据check函数正负确定l，r的更新方式，从确实是否需要补上+1**
 
-第二种划分方式需要(l+r+1)>>1的原因
+第二种划分方式需要`(l+r+1) >> 1`的原因
 
 如果 r=l+1，那么mid就等于l，如果check成功了，那么l还等于l，[l,r]范围没变，会造成死循环。
 
@@ -652,6 +615,7 @@ b3 = a3 - a2
 ...
 b_n = a_n - a_{n-1}
 
+构造差分数组 b[i] = a[i] - a[i-1]
 // 差分和前缀和是逆运算
 当我们知道b数组之后,可以在O(n)时间内求出a数组
 for (int i = 1; i <= n; i++)
@@ -659,8 +623,8 @@ for (int i = 1; i <= n; i++)
 
 // 差分作用
 给定区间a[l,r],将a[l,r]区间内所有的数全都加上c,差分可以将这个操作变为O(1)
-我们将b[l]+c,这样在计算a[l]到a[n]的时候每一个a都会加上C
-然后我们在将b[r+1]-C,这样在计算a[r+1]...a[n]的时候每一个a都会减C
+我们将b[l]+=c,这样在计算a[l]到a[n]的时候每一个a都会加上C
+然后我们在将b[r+1]-=C,这样在计算a[r+1]...a[n]的时候每一个a都会减C
 所以我们的操作为
 b[l] + C,b[r+1]-C;
 
@@ -716,6 +680,33 @@ int main() {
     return 0;
 }
 ```
+示例代码2,采用了更直接的差分数组构造方法
+```cpp
+#include<iostream>
+
+using namespace std;
+const int N = 1e5+10;
+int a[N];
+int b[N];
+int n,m;
+
+int main() {
+    scanf("%d%d", &n,&m);
+    for (int i = 1; i <= n; i++) scanf("%d",&a[i]);
+    // 构造差分数组
+    for (int i = 1; i <= n; i++) b[i] = a[i] - a[i-1];
+    while(m--) {
+        int l,r,c;
+        scanf("%d%d%d",&l,&r,&c);
+        b[l] += c, b[r+1] -= c;
+    }
+    for (int i = 1; i <=n; i++)
+        a[i] = a[i-1] + b[i];
+    for (int i = 1; i <=n; i++)
+        printf("%d ",a[i]);
+    return 0;
+}
+```
 
 ## 二维差分
 
@@ -726,7 +717,14 @@ int main() {
 满足a[i][j] 是b[i][j]前面的数的二维前缀和
 即
 a[i][j] = b[1][1] + b[1][2] + .... + b[i][1] + ... b[i][j]
-二维差分的作用在O(1)时间内内a中某一个子矩阵加C
+二维差分的作用在O(1)时间内让a中某一个子矩阵加C
+
+差分矩阵构造(直接版本)
+因为有(二维前缀和构造)
+a[i][j] = a[i-1][j] + a[i][j-1] - a[i-1][j-1] + b[i][j]
+所以
+b[i][j] = a[i][j] - a[i-1][j] - a[i][j-1] + a[i-1][j-1]
+
 考虑a中的一个子矩阵
 [x1,y1] [x2,y2]
 
@@ -783,6 +781,46 @@ int main() {
     return 0;
 }
 ```
+提供和一维差分类似的写法
+```cpp
+#include<iostream>
+
+using namespace std;
+
+const int N = 1010;
+int a[N][N];
+int b[N][N];
+
+int n,m,q;
+
+int main() {
+    scanf("%d%d%d", &n,&m,&q);
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= m; j++) {
+            scanf("%d",&a[i][j]);
+            // a[i][j] = a[i-1][j] + a[i][j-1] - a[i-1][j-1] + b[i][j]
+            b[i][j] = a[i][j] - a[i-1][j] - a[i][j-1] + a[i-1][j-1];
+        }
+    while (q--) {
+        int x1,x2,y1,y2,c;
+        scanf("%d%d%d%d%d",&x1,&y1,&x2,&y2,&c);
+        b[x1][y1] += c;
+        b[x1][y2+1] -=c;
+        b[x2+1][y1] -=c;
+        b[x2+1][y2+1] +=c;
+    }
+    for (int i =1; i <= n; i++)
+        for (int j = 1; j <= m; j++)
+            a[i][j] = a[i-1][j] + a[i][j-1] - a[i-1][j-1] + b[i][j];
+    
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++)
+            printf("%d ", a[i][j]);
+        printf("\n");
+    }
+
+}
+```
 
 ## 双指针算法
 
@@ -813,7 +851,7 @@ for (int i=n-1,j=0; i >=0; i--) {
 
 经典题目
 
-最长连续不重复子序列
+1.最长连续不重复子序列
 
 ```cpp
 #include<iostream>
@@ -822,16 +860,21 @@ using namespace std;
 
 const int N = 1e5+10;
 int a[N];
-int c[N]; // 维护区间内各个字符出现的次数
+int c[N]; // 维护区间[i,j]内各个数字出现的次数
 int n;
+
 int main() {
     cin >> n;
     for (int i = 0; i < n; i++) cin >> a[i];
     int res = 0;
-    // j表示以i为结尾的最长不重复连续子序列的开头,当i增加的时候,j也只能增加
+    // j表示以i为结尾的最长不重复连续子序列的开头
+    // 当i++时,唯一有可能重复的只有a[i],而且j一定在这个最优区间的左边
+    // 因为j只能增加来保证不重复
+    // j最多移动n次
+    // 所以时间复杂度是O(n)
     for (int i = 0, j = 0; i < n; i++) {
-        c[a[i]]++;
-        while( c[a[i]] != 1) { 
+        c[a[i]] ++;
+        while(j < i && c[a[i]] > 1) {
             c[a[j]] --;
             j++;
         }
@@ -841,7 +884,56 @@ int main() {
 }
 ```
 
+2. [数组元素的目标和](https://www.acwing.com/problem/content/description/802/)
+```cpp
+#include<iostream>
 
+using namespace std;
+
+const int N = 1e5+ 10;
+int a[N],b[N];
+int n,m,x;
+
+int main() {
+    cin >> n >> m >> x;
+    for (int i = 0; i < n; i++) cin >> a[i];
+    for (int i = 0; i < m; i++) cin >> b[i];
+    
+    int i = 0, j = m-1;
+    while (i < n && j >= 0) {
+        if (a[i] + b[j] < x) i++;
+        else if (a[i]+b[j] > x) j--;
+        else break;
+    }
+    cout << i << " " << j;
+}
+```
+
+3. [判断子序列](https://www.acwing.com/problem/content/2818/) 
+
+```cpp
+#include<iostream>
+
+using namespace std;
+
+const int N = 1e5+10;
+
+int a[N],b[N];
+int n,m;
+int main() {
+    scanf("%d%d",&n,&m);
+    for (int i = 0 ; i < n; i++) scanf("%d",&a[i]);
+    for (int i = 0 ; i < m; i++) scanf("%d",&b[i]);
+    // i b[N]
+    // j a[N]
+    int j = 0;
+    for (int i = 0; i < m; i++) {
+        if (j < n && a[j] == b[i]) j++;
+    }
+    if (j == n) cout << "Yes";
+    else cout << "No";
+}
+```
 
 整体的滑动窗口算法比较像双指针
 

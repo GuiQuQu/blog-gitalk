@@ -247,3 +247,13 @@ Usage
 
 **Options**
 - `-a, --all` 列出所有的容器,包括已经停止的容器
+
+## docker cp
+
+在容器和本地文件系统之间复制文件
+
+Usage
+```shell
+docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
+docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
+```

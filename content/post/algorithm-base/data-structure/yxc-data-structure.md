@@ -279,6 +279,113 @@ else empty;
 stk[tt]
 ```
 
+例题: [模拟栈](https://www.acwing.com/problem/content/830/)
+```cpp
+#include<iostream>
+
+using namespace std;
+const int N = 1e5+10;
+int stk[N], tt = 0;
+
+void push(int x) {stk[++tt] = x;}
+
+int pop() {return stk[tt--];}
+
+int top() {return stk[tt];}
+
+bool _is_empty() {return tt <= 0;}
+
+int main() {
+    int m;
+    cin >> m;
+    while(m--) {
+        string op;
+        cin >> op;
+        int x;
+        if (op == "push") {
+            cin >> x;
+            push(x);
+        }
+        else if (op == "query") {
+            cout << top() << endl;
+        }
+        else if (op == "pop") {
+            pop();
+        }
+        else {
+            string res = _is_empty() ? "YES" : "NO";
+            cout << res << endl;
+        }
+    }
+    return 0;
+}
+```
+
+例题:[表达式求值](https://www.acwing.com/problem/content/description/3305/)
+```cpp
+#include<iostream>
+#include<stack>
+#include<ctype.h>
+#include<unordered_map>
+
+using namespace std;
+
+stack<int> nums;
+stack<char> ops;
+
+void eval() {
+    int b = nums.top(); nums.pop();
+    int a = nums.top(); nums.pop();
+    char op = ops.top(); ops.pop();
+    int res = 0;
+    switch (op) {
+        case '+':
+            res = a + b;
+            break;
+        case '-':
+            res = a - b;
+            break;
+        case '*':
+            res = a * b;
+            break;
+        case '/':
+            res = a / b;
+    }
+    nums.push(res);
+}
+
+int main() {
+    string s;
+    cin >> s;
+    unordered_map<char, int> pr={{'+',1},{'-',1},{'*',2},{'/',2}};
+    for (int i = 0; i < s.size(); i++) {
+        if (isdigit(s[i])) {
+            int j = i;
+            int x = 0;
+            while(j < s.size() && isdigit(s[j])) {
+                x = x*10 + s[j++] - '0';
+            }
+            i = j-1;
+            nums.push(x);
+        } 
+        else if (s[i] == '(') {
+            ops.push('(');
+        } else if (s[i] == ')') {
+            while(ops.size() && ops.top() != '(') eval();
+            ops.pop();
+        } else {
+            // 把所有优先级>=s[i]的操作全做了
+            // 因为减法不满足交换律
+            // 1 - 2 + 1 必须先算1-2,而不能先算 2 + 1
+            while(ops.size() && pr[ops.top()] >= pr[s[i]]) eval();
+            ops.push(s[i]);
+        }
+    }
+    while(ops.size()) eval();
+    cout << nums.top() << endl;
+}
+```
+ 
 ## 数组模拟队列
 
 ```cpp
@@ -308,11 +415,49 @@ q[tt]
     tt-hh+1;
 ```
 
+模拟队列,例题
+```cpp
+#include<iostream>
+
+using namespace std;
+
+const int N = 1e5+10;
+
+int q[N], hh = 0, tt = -1;
+
+int main() {
+    int m;
+    cin >> m;
+    while (m --) {
+        string op;
+        cin >> op;
+        int x;
+        if (op =="push") {
+            cin >> x;
+            q[++tt] = x;
+        } 
+        else if (op == "pop") {
+            hh++;
+        }
+        else if (op == "query") {
+            cout << q[hh] << endl;
+        } else {
+            string res = hh > tt ? "YES" : "NO";
+            cout << res << endl;
+        }
+    }
+
+}
+```
+
 ## 单调栈
 
 顾名思义，栈中的元素单调上升或下降
 
 一般而言是用来寻找数组中某个元素(左/右)边最近的比他(大/小)的数
+
+找左侧的数,从左边开始遍历,要留下小数,就把大数全删了
+找右侧的数，从右边开始遍历,要留下大数,就把小数全删了
 
 ```cpp
 //例题
@@ -441,6 +586,10 @@ int main() {
 
 一般用来求解滑动窗口中的最大值/最小值
 
+step 1. 判断队头是否在窗口中,不在的话弹出队头(滑动窗口特有的)
+step 2. 根据要保留<=x的数还是>=x的数,弹出队尾的值
+step 3. 新值x入队
+step 4. 这个窗口已经调整好了,可以获取max 值 or min 值了
 ```cpp
 #include<iostream>
 using namespace std;
@@ -620,7 +769,7 @@ for (int i = 1; i <= n - m + 1; i ++ )
 
 $p[1,j^\prime] = p[j -j^\prime + 1, j]$表示的串相同，我们可以发现按照这种方式，`j`需要移动到`j^\prime`的位置上。
 
-同时我们为了保证不错过任何一次匹配，我们需要下标`j`向前移动的最大，即需要求出前缀和后缀匹配的最长的串，即是`next[]`数组，这个数组和S串没有关系。next数组保存的内容是`next[j] = j^\prime`
+同时我们为了保证不错过任何一次匹配，我们需要下标`j`向前移动的最大，即需要求出前缀和后缀匹配的最长的串，即是`next[]`数组，这个数组和S串没有关系。next数组保存的内容是`next[j] = j'`, 表示的含义是 p[1, j'] = p[j-j'+1, j]相同,且是此时最小的j',即前移的最多
 
 ![image-20220830155717315](image-20220830155717315.png)
 
@@ -632,7 +781,7 @@ $p[1,j^\prime] = p[j -j^\prime + 1, j]$表示的串相同，我们可以发现�
 for (int i = 1, j = 0; i <= n; i ++ )
 {
 	//当s[i] != p[j + 1]时,j向后退,直到j退成0或者是s[i] == p[j+1],匹配成功了。
-    //j退成0之后就退无可退了
+    //j退成0之后就退无可退了,说明s[i]和p[1]不匹配,该i++了
 	while (j && s[i] != p[j + 1]) j = next[j];
 	if (s[i] == p[j + 1]) j ++; //需要把j==0和s[i] == p[j+1]区分开
     if (j == m) 
@@ -743,11 +892,61 @@ int main()
 }
 ```
 
+[最大异或对](https://www.acwing.com/problem/content/145/)
+```cpp
+#include<iostream>
+
+using namespace std;
+
+const int N = 32e5+10, M=1e5+10;
+
+int a[M];
+int son[N][2],val[N],idx;
+
+// 将x按照二进制表示插入到Trie树中
+void insert(int x) {
+    int p = 0;
+    for (int i = 31; i >= 0; i--) {
+        int u = x >> i & 0x1;
+        if (!son[p][u]) son[p][u] = ++idx;
+        p = son[p][u];
+    }
+    val[p] = x;
+}
+
+// xor 不同为1,相同为1,从高位找,优先不同
+int search(int x) {
+    int p = 0;
+    int res = 0;
+    for (int i = 31; i>= 0; i--) {
+        int u = x >> i & 0x1;
+        if (son[p][!u]) {
+            res += 1 << i;
+            p = son[p][!u];
+        } else p = son[p][u];
+    }
+    return res;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++) cin >> a[i];
+    for (int i = 0; i < n; i++) insert(a[i]);
+    int res = 0;
+    for (int i = 0; i < n; i++) res = max(res,search(a[i]));
+    cout << res << endl;
+}
+```
+
 ## 并查集
 
 并查集支持的操作，在近乎O(1)的时间复杂度之内快速的支持以下两个操作
 
 1.将两个集合合并 2.询问两个元素是否同一个集合当中
+
+集成集合的信息
+1. 并查集可以知道集合中点的个数(注意操作的时候先把额外信息合并好,最后在合并集合)
 
 基本原理:每个集合用一棵树来表示，树根的编号就是集合的编号，每个节点存储他们的父节点，p[x]表示x的父节点
 

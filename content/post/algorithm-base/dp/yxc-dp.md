@@ -49,28 +49,28 @@ https://github.com/tianyicui/pack/blob/master/V2.pdf
 
 using namespace std;
 
-const int N =1010;
-
-int n,m;
+const int N = 1010;
 
 int v[N],w[N];
+int n,m;
+
+// f[i,j] 表示只使用前i个物品时,体积不超过j的最大价值
+// f[i,j] = max(f[i-1,j], f[i-1,j - v[i]] + w[i]
+
 int f[N][N];
 
-int main()
-{
-    cin>>n>>m;
-    for (int i=1;i<=n;i++) cin>>v[i]>>w[i];
-    // 初始化 f[0][0~m]全是0
-    for (int i=1;i<=n;i++)
-        for (int j=1;j<=m;j++)
+int main() {
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++) cin >> v[i] >> w[i];
+    // init f[0,0~m] = 0
+    // init f[0~n,0] = 0
+    for (int i =1; i <= n; i++) 
+        for (int j=1; j <= m;j++)
         {
-           f[i][j] = f[i-1][j];
-            if (j>=v[i]) f[i][j] = max(f[i][j],f[i-1][j-v[i]]+w[i]); 
+            f[i][j] = f[i-1][j];
+            if (j >= v[i]) f[i][j] = max(f[i][j], f[i-1][j-v[i]] + w[i]);
         }
-            
-            
-    cout<<f[n][m]<<endl;
-    return 0;
+    cout << f[n][m] << endl;
 }
 ```
 
@@ -232,6 +232,64 @@ int main ()
 } 
 ```
 
+ 带注释版,写的很清晰
+```cpp
+#include<iostream>
+
+using namespace std;
+
+// 把多重背包优化成01背包
+// 物品i,v[i],w[i],s[i] 
+// 针对s[i],把2的次方个物品绑定成一个,(即1,2,4,8,16...)
+// 根据二进制表示可以(如果最后就到16),我们可以表示0~16内的所有数
+// s[i]不一定就是2的次方,
+// 假设最后出来5个绑定,即 出现 11111(5),还剩下一些物品，设为x
+// 下面均是二进制表示
+// 那么s[i] = 1xxxxx (11111(5) + x) 
+// s[i] < 111111(6) 
+// => 11111(5) + x < 111111(6) 
+// => x < 100000(6) => x <= 11111(5)
+
+// => for 11111(5) < t <= s[i]
+// 0 < t - x <= s[i] - x = 11111(5)
+// 因此可以将x作为最后一组物品, 剩下的t-x也可以表示出来
+
+// 估计01背包开的数据范围
+// s[i] < 2000 < 2^11 - 1 使用11位二进制可以表示(最多11个物品,开到12)
+// n < 1000 ,所以 01背包的物品个数最多 12*1000 + 10 = 12010
+
+const int N = 12010, M = 2010;
+int v[N], w[N];
+int f[M];
+int n,m;
+
+int main() {
+    cin >> n >> m;
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        int a,b,c;
+        cin >> a >> b >> c;
+        int k = 1;
+        while(c-k >= 0) {
+            cnt++;
+            v[cnt] = k*a;
+            w[cnt] = k*b;
+            c -= k;
+            k <<= 1;
+        }
+         if (c) {
+            cnt++;
+            v[cnt] = c*a;
+            w[cnt] = c*b;
+        }
+    }
+    for (int i = 1; i <= cnt; i++)
+        for (int j=m; j >= v[i]; j--)
+            f[j] = max(f[j],f[j-v[i]]+w[i]);
+    cout << f[m] << endl;
+    
+}
+```
 **写法三单调队列优化**
 
 具体到多重背包的朴素分析过程中

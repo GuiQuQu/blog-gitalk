@@ -22,6 +22,12 @@ categories:
 
 假设所有边的权重为1，BFS第一次找到某一个点的时候，起点到该点的距离就是起点到该点的最短距离，DFS不具有这种特性
 
+DFS书写要点
+1. 注意先写递归终止条件
+2. 想明白每一层dfs应该如何进行遍历,每次遍历可以用那些值
+3. dfs下一层的结束之后,需要恢复现场
+   
+例如数字全排列问题，使用了全局`sta[N]`的数组来表明数字是否被使用过,使用过的数字不在使用
 数字全排列问题
 
 ```cpp
@@ -122,14 +128,17 @@ int main()
 
 宽搜模板
 
+
 ```
-队列 queue <-初始状态
+队列 queue <-初始状态(初始节点入队)
 while (q不空)
 {
 	t  <- 队头
-	扩展队头
+	扩展队头(入队)
 }
 ```
+
+全部入队有一次访问,全部出队也有一次访问,写距离适合在入队的时候写,因为这个时候知道上一个点是什么
 
 ## 走迷宫
 
@@ -235,7 +244,7 @@ int main() {
 
 树是一种特殊的图
 
-稠密图用邻接矩阵，稀疏图用邻接表，**判断是否是稠密图，m>=n^2; m是边数，n是点数**
+稠密图用邻接矩阵，稀疏图用邻接表，**判断是否是稠密图，m>= n^2 / log n; m是边数，n是点数**
 
 第一种是邻接矩阵，采用二维数组g\[N\]\[N\]来表示，g\[i\]\[j\]就表示从点i到点j之间有一条边。
 
@@ -291,6 +300,8 @@ int main()
 
 树的遍历分为深度优先遍历和宽度优先遍历，就是将DFS和BFS结合到树/图中
 
+注意下面这个代码dfs没有写出明显的终止条件,因为通过`st[N]`进行了控制,每个节点最多只访问一次
+
 ```cpp
 int st[N];
 int dfs(int u)
@@ -345,7 +356,7 @@ const int N = 1e5+10;
 
 int h[N],e[2*N],ne[2*N],idx;
 // 因为无向边,add两次,所以e和,ne得开两倍范围
-int c[N]; // 记录以节点n为根的自述自己有几个节点
+int c[N]; // 记录以节点n为根的子树自己有几个节点
 int ans = 0x3f3f3f3f;
 int n;
 // 头插法加入边a->b
@@ -438,6 +449,9 @@ int main() {
 只有有向无环图才有拓扑排序，成环的图没有拓扑排序。
 
 拓扑排序里面只有前点指向后点的边，没有反向边。拓扑排序一般使用宽搜模板即可完成
+
+step 1. 统计图中每个点的入度
+拓扑排序从入度为0的点开始,遍历一轮之后,把这些点隐藏(在入度数组中让(i->j) j的入度减少)
 
 ```cpp
 #include<iostream>
@@ -926,48 +940,51 @@ Floyd算法允许存在负边，循环的顺序k必须放到最前面
 
 using namespace std;
 
-const int N =210,INF=1e9;
+const int N = 210, INF = 1e9;
+
 int d[N][N];
 
 int n,m,k;
 
-void floyd()
-{
-    for (int k=1;k<=n;k++)
-        for (int i=1;i<=n;i++)
-            for (int j=1;j<=n;j++)
-                d[i][j] =min(d[i][j],d[i][k]+d[k][j]);
+// d[k,i,j] 表示最多只经过前k个点,点i到点j的最短距离
+// d[k,i,j] = min(d[k-1,i,k],+d[k-1,k,j], d[k-1,i,j]) 
+// (分类:经过点k和不经过点k)
+// k的更新只用到k-1,因此k的表示可有优化
+// d[i,j] = min(d[i,k] + d[k,j], d[i,j])
+// 优化之后要确保d[i,j]的更新在d[i,k]和d[k,j]的前面
+// 因此for循环k要放第一个
+
+// init
+// d[i][j] 表示只经过前1个点i->j的最短距离
+// d[i][i] = 0 , other d[i][j] = INF
+// d[i][j] = w[i][j] i->j存在边时
+void floyd() {
+    for (int k=1; k<=n; k++)
+        for (int i = 1; i <= n; i++)
+            for (int j=1; j <= n; j++)
+                d[i][j] = min(d[i][k] + d[k][j], d[i][j]);
 }
-
-int main()
-{
-    
-
-    scanf("%d%d%d",&n,&m,&k);
-    for (int i=1;i<=n;i++)
-    {
-        for (int j =1;j<=n;j++)
-        {
-            if (i==j) d[i][j]=0;
-            else d[i][j]=INF;
+int main() {
+    // init
+    cin >> n >> m >> k;
+    for (int i = 1; i <=n; i++)
+        for (int j = 1; j <=n; j++) {
+            if (i == j) d[i][j] = 0;
+            else d[i][j] = INF;
         }
-    }
-
-    while(m--)
-    {
+    while(m--) {
         int a,b,c;
-        scanf("%d%d%d",&a,&b,&c);
-        d[a][b]=min(d[a][b],c);
+        cin >> a >> b >> c;
+        d[a][b] = min(d[a][b],c);
     }
     floyd();
-    while (k--)
-    {
-        int x,y;
-        scanf("%d%d",&x,&y);
-        if (d[x][y]>INF /2) puts("impossible"); //不能到达并不一定等于INF，而是可能小于INF一些的数。
-        else printf("%d\n",d[x][y]);
+    while (k--) {
+        int x, y;
+        cin >> x >> y;
+        // 因为边权可能是负数, 所以 d[x][y] == INF 不能包括所有不能到达的情况
+        if (d[x][y] > INF / 2) cout << "impossible\n";
+        else cout << d[x][y] << endl;
     }
-   
 }
 ```
 
