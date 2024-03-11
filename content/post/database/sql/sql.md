@@ -8,6 +8,9 @@ math: true
 comments: true
 draft: false
 categories:
+
+tags:
+    - Database
 ---
 
 # 关系数据模型

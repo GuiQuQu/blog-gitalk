@@ -8,6 +8,9 @@ math: false
 comments: true
 draft: false
 categories:
+
+tags:
+    - Database
 ---
 - 已提交的事务对数据库的修改为全部持久化到磁盘上 => 破坏一致性
   
