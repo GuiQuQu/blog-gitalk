@@ -6,7 +6,7 @@ image:
 url: /db/transaction-and-concurrency-control
 math: false
 comments: true
-draft: true
+draft: false
 categories:
 
 tags:
