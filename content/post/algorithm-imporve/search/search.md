@@ -26,7 +26,9 @@ categories:
 - 两个方向，都需要有对应的两个队列，并保存对应的搜索步数
 - 有两种搜索方式，第一种是简单的一次每一边分别扩展一步，第二种是每次选择元素较少的一方扩展一步，这样比较均衡
 - 确定会和点：当我们在一方进行扩展的时候,我可以确定我们需要扩展的下一个点，如果这个点对面方已经扩展到了,那么就可以确定会和了
+- 下面的代码有问题,双向广搜要求我们一次扩展必须搜索完一层,否则找到的答案不是最短
 
+[lc 例题:单词接龙](https://leetcode.cn/problems/word-ladder/description/?envType=study-plan-v2&envId=top-interview-150)
 [例题 is here,字串变换](https://www.acwing.com/problem/content/description/192/)
 
 ```cpp

@@ -15,7 +15,7 @@ categories:
 
 给自己看的，到处搜罗，写出来的总结版
 
-# 进程，线程，携程
+# 进程，线程，协程
 [reference1](https://mp.weixin.qq.com/s?__biz=MzkwMDE1MzkwNQ==&mid=2247496008&idx=1&sn=b4c6bfc75abfa8a45843bc3c2221b6ad&source=41#wechat_redirect)
 
 [reference2](https://imageslr.com/2020/07/07/process-thread.html#)
@@ -32,9 +32,9 @@ categories:
 线程分为“内核态”线程和“用户态”线程
 一个 “用户态线程” 必须要绑定一个 “内核态线程”，但是 CPU 并不知道有 “用户态线程” 的存在，它只知道它运行的是一个 “内核态线程”(Linux 的 PCB 进程控制块)。
 
-因此继续细分,内核线程叫做“线程(thread)”,用户线程叫做“携程(co-routine)”
+因此继续细分,内核线程叫做“线程(thread)”,用户线程叫做“协程(co-routine)”
 
-因此在这个基础上，我们可以突破线程和携程1对1的关系，将其变成多对多，从而提高线程的利用率，因为变成了多对多，因此还需要一个协程调度器来帮忙调度，这个就是GMP模型做的事。
+因此在这个基础上，我们可以突破线程和协程1对1的关系，将其变成多对多，从而提高线程的利用率，因为变成了多对多，因此还需要一个协程调度器来帮忙调度，这个就是GMP模型做的事。
 
 # 基本概念
 
@@ -79,7 +79,7 @@ Processor，它包含了运行goroutine的资源，要想一个线程运行gorou
     当本线程因为 G 进行系统调用阻塞时，线程释放绑定的 P，把 P 转移给其他空闲的线程执行。
 
 2. .利用并行:最多有 `GOMAXPROCS` 个线程分布在多个CPU上执行
-3. 抢占：在co-routine中要等待一个携程主动让出CPU才能执行下一个携程，在Go中，一个goroutine最多占用CPU 10ms,防止其他goroutine饿死。
+3. 抢占：在co-routine中要等待一个协程主动让出CPU才能执行下一个协程，在Go中，一个goroutine最多占用CPU 10ms,防止其他goroutine饿死。
 4. 全局G队列：当M执行working stealing偷不到G的时候，它可以从全局G队列获取G
 
 ## go func() 调度流程
