@@ -8,6 +8,7 @@ math: true
 comments: true
 draft: false
 categories:
+   - "Distributed System"
 ---
 
 Basic Paxos
@@ -128,6 +129,12 @@ least space approach
 
 最终Y is chosen, X返回,生成新的proposal number重来
 
+**Paxos中的持久化**
+
+acceptor在回复之前,需要先将消息持久化
+
+1. 在回复prepare(n)之前持久化,是为了保证崩溃重启之后,依然可以信守承诺,所以是持久化自己的miniProposal
+2. 在回复accept(n, value)之前持久化,是为了保证value不会咋爱崩溃重启之后丢失,依然可以信守承诺,所以是持久化自己的miniProposal和value
 
 Basic-Paxos的问题
 

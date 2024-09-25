@@ -26,11 +26,6 @@ const int N = 1e5 + 10;
 int a[N];
 int n;
 
-// 传入数组,q 左右边界(l,r)idx(闭区间)
-// i和j的落点,最后会落到等于x的idx处
-// 因此为了保证递归不会死循环
-// e.g. quick_sort(q,l,j); 
-// 这里,j不能等于r,所以x不能选q[r]
 void quick_sort(int q[], int l, int r) {
     if (l >= r) return;
     int x = q[(l+r) >> 1], i = l-1, j = r+1;
@@ -50,6 +45,15 @@ int main() {
     for (int i = 0; i < n; i++) printf("%d ",a[i]);
     return 0;
 }
+```
+
+对于划分子问题以及边界选择的说明,防止出现无限递归的情况
+```cpp
+    do i++; while(q[i] < x); // 这行会让i停在一个大于等于x的位置
+    do j--; while(q[j] > x); // 这行会让j停在一个小于等于x的位置
+    // 在最后一次次循环中,(i >= j) swap不执行,那么此时我们可以保证的是
+    // [i,r] >= x,[l,j] <= x
+    // 所以我们划分子问题的时候也需要按照这个划分 [l,i-1],[i,r]  或者 [l,j],[j+1,r]
 ```
 
 **说明**
@@ -73,6 +77,60 @@ quick_sort(q,l,j);
 quick_sort(q, j+1, r);
 ```
 
+## 三路快排
+
+三路快排是对快速排序的一种改进,当选定了划分数p之后,三路快排将数组分成了三个部分, `<p| =p |>p`
+
+
+```cpp
+void quick_sort(int q[],int l,int r) {
+    int x = q[(l+r) >> 1];
+    // [l,j) < x
+    // [j,k) = x
+    // [k,r] > x
+    int i = l, j = l , k = r+1;
+    while(i < k) {
+        if (q[i] < x) swap(q[i++], q[j++]);
+        else if (q[i] == x) i++;
+        else swap(q[i],q[--k]);
+    }
+    quick_sort(q,l,j-1);
+    quick_sort(q,k,r);
+}
+
+
+void quick_sort(int q[], int l, int r) {
+    int x = q[(l+r) >> 1];
+    // [l,j] < x
+    // [j+1,k-1] = x
+    // [k,r] > x
+    int i = l , j = l - 1, k = r + 1;
+    while(i < k) {
+        if (q[i] < x) swap(q[++j,q[i++]]); // q[i] < x,应该放到[l,j]中,然后被换到i位置的数字为q[j+1],该数字要么是 < x,要么 = x
+        else if (q[i] > x) swap(q[--k],q[i]); // q[i] > x,应该放到[k,r]中,然后被换到i位置的数组为q[k-1],该数字要么是 > x,要么 = x
+        else i++;
+    }
+    quick_sort(q,l,j);
+    quick_sort(q,k,r);
+}
+
+
+void quick_sort(int q[], int l, int r) {
+    int x = q[(l+r) >> 1];
+    // [l,j) < x
+    // [j,k) = x
+    // [k,r] > x
+    int i = l, j = l, k = r + 1;
+    while (i < k) {
+        if (q[i] < x) swap(q[i++], q[j++]);
+        else if (q[i] > x) swap(q[i],q[--k]);
+        else i++;
+    }
+    quick_sort(q, l, j - 1);
+    quick_sort(q, k, r);
+}
+
+```
 ## 快速选择算法
 
 基于快排写
@@ -1020,7 +1078,47 @@ for (int i=0,j=0;j<n;j++)
 
 ## 位运算
 
-常用的位运算操作
+常用的位运算操作有按位与,按位或,按位取反,按位异或,左移,右移等等操作
+
+按位与的性质
+
+按位与 
+```cpp
+0 & 0=0,
+0 & 1=0,
+1 & 0=0,
+1 & 1=1
+
+// 按位与满足交换律,结合律
+a & b = b & a
+a & (b & c) = (a & b) & c
+// 与自己和0
+a & a = a
+a & 0 = 0
+```
+按位或的性质
+```cpp
+0 | 0 = 0,
+0 | 1 = 1,
+1 | 0 = 1,
+1 | 1 = 1
+
+// 按位或满足交换律,结合律
+a | b = b | a
+a | (b | c) = (a | b) | c
+
+// 与自己和0
+a | a = a
+a | 0 = a
+```
+
+按位异或的性质
+```cpp
+0 ^ 0 = 0,
+0 ^ 1 = 1,
+1 ^ 0 = 1,
+1 ^ 1 = 0
+```
 
 ```cpp
 1. n的二进制表示中，第k位是几,k=0~31,0是个位

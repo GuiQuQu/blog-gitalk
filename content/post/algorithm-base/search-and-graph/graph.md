@@ -552,10 +552,93 @@ int main()
     第一种是手写，需要可以修改任意元素的堆，需要写那个映射
     
     第二种是采用STL中的priority_queue，不支持修改任意元素。采用冗余的方法完成元素更新。
-    当我们需要修改一个数的时候，将这个数加入堆中，这样堆中出现了冗余，一个点可能会对应多个值，但是我们有S来确保我们每一个点只会找一个最短路，利用S可以确定当前是否是冗余，如果是，直接跳过就可以。这样堆中最多会有m个元素，由于稀疏图m<n^2的，所以logm和logn是一个数量级的，时间复杂度不变。
-    注意采用STL需要使用pair来将距离到对应的终点对应起来，并且需要距离在前，终点在后，因为pair的比较是先比first，在比second
-
+    当我们需要修改一个数的时候，将这个数加入堆中，这样堆中出现了冗余，一个点可能会对应多个值，
+    但是我们有S来确保我们每一个点只会找一个最短路，利用S可以确定当前是否是冗余，
+    如果是，直接跳过就可以。这样堆中最多会有m个元素，
+    由于稀疏图m < n^2的，所以logm和logn是一个数量级的，时间复杂度不变。
+    注意采用STL需要使用pair来将距离到对应的终点对应起来，并且需要距离在前，终点在后，
+    因为pair的比较是先比first，在比second
 ```
+
+dijkstra算法求解最短路方案:
+
+从终点开始往回dfs或者bfs, 假设遇到了一条边(u->v),如果dist[u] = dist[v] + w(u->v),那么这条边就是最短路的一部分
+如果题目是有向图,那么就需要建反图,在反图上遍历,如果题目是无向图,则可以直接在原图上遍历
+
+示例题目: [LeetCode-100276. 最短路径中的边](https://leetcode.cn/problems/find-edges-in-shortest-paths/description/)
+
+下面是参考代码(该图是无向图,因此可以在原图上遍历,参考代码除了给出了题目要求的解之外,还给出了输出路径的写法)
+
+```cpp
+typedef pair<int,int> PII;
+const int INF = 0x3f3f3f3f;
+struct Node {
+    int j,w,idx;
+};
+class Solution {
+public:
+    vector<vector<Node>> g;
+    vector<bool> findAnswer(int n, vector<vector<int>>& edges) {
+        g = vector<vector<Node>>(n,vector<Node>{});
+        int m = edges.size();
+        for (int i = 0; i < m; i++) {
+            auto &it = edges[i];
+            int a = it[0], b = it[1], w = it[2];
+            g[a].push_back({b,w,i});
+            g[b].push_back({a,w,i});
+        }
+        vector<int> dist = vector<int>(n,INF);
+        priority_queue<PII,vector<PII>, greater<PII>> pq;
+        dist[0] = 0;
+        pq.push({0,0});
+        while(pq.size()) {
+            auto t = pq.top();
+            pq.pop();
+            int d = t.first, u = t.second;
+            if (d > dist[u]) continue;
+            // u->other
+            for (int i = 0; i < g[u].size(); i++) {
+                // 0->u->j
+                Node node = g[u][i];
+                int j = node.j, w = node.w;
+                if (dist[j] > d + w) {
+                    dist[j] = d + w;
+                    pq.push({d+w,j});
+                }
+            }
+        }
+
+        vector<bool> ans(m,false);
+        if (dist[n-1] == 0x3f3f3f3f)
+            return ans;
+        
+        // 从终点出发dfs
+        vector<int> path{n-1};
+        function<void(int)> dfs = [&](int u) {
+            // dist[node] -> dist[u] j->u
+            if (u == 0) {
+                // for (auto i: path)
+                //     printf("%d ",i);
+                // printf("\n");
+                return;
+            }
+            for (int i = 0; i < g[u].size(); i++) {
+                Node node = g[u][i];
+                if (dist[node.j] + node.w == dist[u]) {
+                    ans[node.idx] = true;
+                    path.push_back(node.j);
+                    dfs(node.j);
+                    path.pop_back();
+                }
+            }
+        };
+        
+        dfs(n-1);
+        return ans;
+    }
+};
+```
+
 ```cpp
 //朴素版本dijkstra算法
 #include<iostream>

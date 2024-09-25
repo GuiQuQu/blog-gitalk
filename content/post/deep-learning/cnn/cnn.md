@@ -319,6 +319,15 @@ print(cond2d_Y == linear_Y)
 #           [True, True]]]])
 # 经过实际验证,torch内的conv2d的bias参数是跨像素+跨输入通道共享的
 ```
+
+## conv1d,conv2d,conv3d之间的区别
+
+主要区别如下:
+
+- conv1d主要用在时序数据上，卷积核只在左右方向上移动，因此他的互相关操作是1d的
+- conv2d主要用在图像数据上，卷积核在左右和上下方向移动，因此他的互相关操作是2d的
+- conv3d可以用来3d数据或者视频数据上，卷积核在(x,y,z)三个方向上移动，因此他的互相关操作是3d的
+
 ## 总结 Conv2d
 
 - 输入 $X => c_i \times n_h \times n_w$
